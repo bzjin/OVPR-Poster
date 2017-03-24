@@ -1,0 +1,240 @@
+{
+ "name": "flare",
+ "children": [
+    { 
+     "name": "Total Research Funding",
+     "children": [
+      {
+       "name": "Total Funding by Cornell Divisions",
+       "children": [
+        {"name": "Endowed Colleges", "size": 27080},
+        {"name": "Contract Colleges", "size": 32460},
+        {"name": "Medical Colleges", "size": 37880}
+       ]
+      },
+      {
+       "name": "Total External Funding",
+       "children": [
+        {"name": "Federal", "size": 43100},
+        {"name": "Nonfederal", "size": 26490}
+       ]
+      },
+      {
+       "name": "Top Sources of Funding",
+       "children": [
+        {"name": "Department of Health and Human Sciences", "size": 20980},
+        {"name": "National Science Foundation", "size": 10960}
+       ]
+      }
+     ]
+    },
+  {
+   "name": "Ranking Cornell Research by Research Expenditures",
+   "children": [
+    {
+     "name": "Nationally: #12",
+     "children": [
+      {"name": "#1 Johns Hopkins University", "size": 231000},
+      {"name": "#2 University of Michigan", "size": 137000},
+      {"name": "#3 University of Washington", "size": 120000},
+      {"name": "#4 University of California, San Francisco", "size": 113000},
+      {"name": "#5 University of California, San Diego", "size": 110000},
+      {"name": "#6 University of Wisconsin", "size": 107000},
+      {"name": "#7 Duke University", "size": 104000},
+      {"name": "#8 Stanford University", "size": 102000},
+      {"name": "#9 University of California, Los Angeles", "size": 102000},
+      {"name": "#10 Harvard University", "size": 101000},
+      {"name": "#11 University of North Carolina", "size": 96700},
+      {"name": "#12 Cornell University", "size": 95400},
+      {"name": "#13 Massachusetts Institute of Technology", "size": 93100},
+      {"name": "#14 University of Minnesota", "size": 88100},
+      {"name": "#15 Columbia University", "size": 86800},
+      {"name": "#16 Texas A&M University", "size": 86700},
+      {"name": "#17 University of Pennsylvania", "size": 86400},
+      {"name": "#18 University of Pittsburgh", "size": 86100},
+      {"name": "#19 University of Texas M. D. Anderson Cancer Center", "size": 83300},
+      {"name": "#20 Ohio State University", "size": 81800}
+     ]
+    },
+    {
+     "name": "In New York State: #1",
+     "children": [
+      {"name": "#1 Cornell University", "size": 95400},
+      {"name": "#2 Columbia University", "size": 86800},
+      {"name": "#3 New York University", "size": 60200},
+      {"name": "#4 Icahn School of Medicine Mt. Sinai", "size": 50800},
+      {"name": "#5 SUNY - University of Buffalo", "size": 38300}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Cornell Innovations",
+   "children": [
+    {
+     "name": "New Startup Companies: 11",
+     "children": [
+      {
+       "name": "Six in New York State",
+       "children": [
+        {"name": "Ecolectic Inc. in Willeysville, NY", "size": 10000},
+        {"name": "Embark Veterinary Inc. in Ithaca, NY", "size": 10000},
+        {"name": "Fera Animal Health LLC in Dryden, NY", "size": 10000},
+        {"name": "Fesarius Therapeutics Inc. in New York, NY", "size": 10000},
+        {"name": "Quentis Inc. in New York, NY", "size": 10000},
+        {"name": "Xallent LLC in Ithaca, NY", "size": 10000}
+       ]
+      },
+      {
+       "name": "Five Worldwide",
+       "children": [
+        {"name": "Annapurna Therapeutics Limited in Dublin, Ireland", "size": 10000},
+        {"name": "EcycloPure Inc. in Encinitas, CA", "size": 10000},
+        {"name": "Lionano Inc. in Raynham, MA", "size": 10000},
+        {"name": "ReconnectNEURO LLC in Claymont, DE", "size": 10000},
+        {"name": "Symflor SAS in Le Kremlin-Bicetre, France", "size": 10000}
+       ]
+      }
+     ]
+    }
+    
+   ]
+  },
+  {
+   "name": "Top Sources of Funding",
+   "children": [
+    {
+     "name": "axis",
+     "children": [
+      {"name": "Axes", "size": 1302},
+      {"name": "Axis", "size": 24593},
+      {"name": "AxisGridLine", "size": 652},
+      {"name": "AxisLabel", "size": 636},
+      {"name": "CartesianAxes", "size": 6703}
+     ]
+    },
+    {
+     "name": "controls",
+     "children": [
+      {"name": "AnchorControl", "size": 2138},
+      {"name": "ClickControl", "size": 3824},
+      {"name": "Control", "size": 1353},
+      {"name": "ControlList", "size": 4665},
+      {"name": "DragControl", "size": 2649},
+      {"name": "ExpandControl", "size": 2832},
+      {"name": "HoverControl", "size": 4896},
+      {"name": "IControl", "size": 763},
+      {"name": "PanZoomControl", "size": 5222},
+      {"name": "SelectionControl", "size": 7862},
+      {"name": "TooltipControl", "size": 8435}
+     ]
+    },
+    {
+     "name": "data",
+     "children": [
+      {"name": "Data", "size": 20544},
+      {"name": "DataList", "size": 19788},
+      {"name": "DataSprite", "size": 10349},
+      {"name": "EdgeSprite", "size": 3301},
+      {"name": "NodeSprite", "size": 19382},
+      {
+       "name": "render",
+       "children": [
+        {"name": "ArrowType", "size": 698},
+        {"name": "EdgeRenderer", "size": 5569},
+        {"name": "IRenderer", "size": 353},
+        {"name": "ShapeRenderer", "size": 2247}
+       ]
+      },
+      {"name": "ScaleBinding", "size": 11275},
+      {"name": "Tree", "size": 7147},
+      {"name": "TreeBuilder", "size": 9930}
+     ]
+    },
+    {
+     "name": "events",
+     "children": [
+      {"name": "DataEvent", "size": 2313},
+      {"name": "SelectionEvent", "size": 1880},
+      {"name": "TooltipEvent", "size": 1701},
+      {"name": "VisualizationEvent", "size": 1117}
+     ]
+    },
+    {
+     "name": "legend",
+     "children": [
+      {"name": "Legend", "size": 20859},
+      {"name": "LegendItem", "size": 4614},
+      {"name": "LegendRange", "size": 10530}
+     ]
+    },
+    {
+     "name": "operator",
+     "children": [
+      {
+       "name": "distortion",
+       "children": [
+        {"name": "BifocalDistortion", "size": 4461},
+        {"name": "Distortion", "size": 6314},
+        {"name": "FisheyeDistortion", "size": 3444}
+       ]
+      },
+      {
+       "name": "encoder",
+       "children": [
+        {"name": "ColorEncoder", "size": 3179},
+        {"name": "Encoder", "size": 4060},
+        {"name": "PropertyEncoder", "size": 4138},
+        {"name": "ShapeEncoder", "size": 1690},
+        {"name": "SizeEncoder", "size": 1830}
+       ]
+      },
+      {
+       "name": "filter",
+       "children": [
+        {"name": "FisheyeTreeFilter", "size": 5219},
+        {"name": "GraphDistanceFilter", "size": 3165},
+        {"name": "VisibilityFilter", "size": 3509}
+       ]
+      },
+      {"name": "IOperator", "size": 1286},
+      {
+       "name": "label",
+       "children": [
+        {"name": "Labeler", "size": 9956},
+        {"name": "RadialLabeler", "size": 3899},
+        {"name": "StackedAreaLabeler", "size": 3202}
+       ]
+      },
+      {
+       "name": "layout",
+       "children": [
+        {"name": "AxisLayout", "size": 6725},
+        {"name": "BundledEdgeRouter", "size": 3727},
+        {"name": "CircleLayout", "size": 9317},
+        {"name": "CirclePackingLayout", "size": 12003},
+        {"name": "DendrogramLayout", "size": 4853},
+        {"name": "ForceDirectedLayout", "size": 8411},
+        {"name": "IcicleTreeLayout", "size": 4864},
+        {"name": "IndentedTreeLayout", "size": 3174},
+        {"name": "Layout", "size": 7881},
+        {"name": "NodeLinkTreeLayout", "size": 12870},
+        {"name": "PieLayout", "size": 2728},
+        {"name": "RadialTreeLayout", "size": 12348},
+        {"name": "RandomLayout", "size": 870},
+        {"name": "StackedAreaLayout", "size": 9121},
+        {"name": "TreeMapLayout", "size": 9191}
+       ]
+      },
+      {"name": "Operator", "size": 2490},
+      {"name": "OperatorList", "size": 5248},
+      {"name": "OperatorSequence", "size": 4190},
+      {"name": "OperatorSwitch", "size": 2581},
+      {"name": "SortOperator", "size": 2023}
+     ]
+    },
+    {"name": "Visualization", "size": 16540}
+   ]
+  }
+ ]
+}

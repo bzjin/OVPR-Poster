@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="utf-8">
+	<title>Cornell Research</title>
+
+	<!-- Google Fonts --> <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,400,700" rel="stylesheet">	
+	<!-- Jquery -->   <script src="jquery-1.12.4.min.js"></script>
+  	<script src="jquery-1.12.1-ui.js"></script>
+	<!-- Bootstrap--> <script src="bootstrap.min.js"></script> <link rel="stylesheet" href="bootstrap.min.css">
+
+	<link rel="stylesheet" href="app.css"/>
+</head>
+
+	<style>
+	.node {cursor: pointer}
+	.node:hover {stroke: #000; stroke-width: 1.5px;}
+	.node--leaf {fill: white;}
+	.label {font: 18px "Open Sans";text-anchor: middle;font-weight:700;text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;}
+	.label,.node--root,.node--leaf {pointer-events: none;}
+	</style>
+
+<body>
+
+	<div class="col-md-12" id="research">
+	<div class="col-md-5" id="stats">
+		<div class="col-md-12">
+		<h1> Cornell Research </h1>
+		<h3> Extreme Talent. Radical Collaboration. Results That Matter </h3>
+		</div>
+			<div class="col-md-6"> 
+			<h2> Cornell Research Funding, FY 2016 </h2>
+				<h3> By Research Expenditures </h3>
+					<p class="stat">$974.2 M</p>
+					<p> Total Research Funding </p>
+					<p class="stat">$695.9 M</p>
+					<p> Total External Funding </p>
+					<p class="stat">$431.0 M</p>
+					<p> Federal </p>
+					<p class="stat">$264.9 M</p>
+					<p> Nonfederal </p>
+			<h2> Top Sources of Funding </h2>
+					<p class="stat">$209.8 M</p>
+					<p> Department of Health and Human Services </p>
+					<p class="stat">$109.6 M</p>
+					<p> National Science Foundation</p>
+			<h2> Total Funding </h2>
+				<h3> By Cornell Divisions</h3>
+					<p class="stat">$270.8 M</p>
+					<p> Endowed </p>
+					<p class="stat">$324.6 M</p>
+					<p> Contract </p>
+					<p class="stat">$378.8 M</p>
+					<p> Medical </p>
+		</div>
+		<div class="col-md-6"> 
+			<h2> Ranking Cornell Research </h2>
+				<h3> By Research Expenditures </h3>
+				<h4> Source: National Science Foundation, FY 2015</h4>
+					<p class="stat">12</p>
+					<p> Nationally</p>
+					<p class="stat">1</p>
+					<p> New York State</p>
+			<h2> Cornell Innovations</h2>
+					<p class="stat">11</p>
+					<p> New Startup Companies </p>
+					<p class="stat">99</p>
+					<p> Commercial Licenses</p>
+					<p class="stat">319</p>
+					<p> Patents Issued </p>
+					<p class="stat">483</p>
+					<p> Patents Filed </p>
+					<p class="stat">359</p>
+					<p> New Technologies Disclosed</p>
+					<p class="stat">$15.6 M</p>
+					<p> Revenue</p>
+			<h2> Stats of Distinction</h2>
+					<p class="stat">222</p>
+					<p> Memberships in the National Academies</p>
+					<p class="stat">15</p>
+					<p> National Science Foundation Early Career Development Awards</p>
+			</div>
+		<div class="col-md-12"> 
+			<h2> Select Distinctions </h2>
+			 	<p> <span class="name">Patrick J. Stover</span>, <span class="study">Nutritional Sciences, National Academy of Sciences</span>; <span class="name">Sandra E. Greene</span>, <span class="study">History, American Academy of Arts and Sciences</span>; and <span class="name">Francis S. Lee</span>, <span class="study">Psychiatry, Weill Cornell Medicine, National Academy of Medicine</span> are among eight Cornell faculty inducted into the distinguished national academies in 2016. </p>
+
+			 	<p> <span class="name">Shu-Bing Qian</span>, <span class="study">Nutritional Sciences</span>, is a Howard Hughes Medical Institute Scholar, named to this inaugural program for his work on mRNA translation and protein synthesis in relation to diabetes, cancer, aging, and neurodegenerative disorders. </p>
+
+			 	<p> <span class="name">Saul A. Teukolsky</span>,  <span class="study">Physics/Astronomy</span>, along with senior research associate Lawrence Kidder, share in the Special Breakthrough Prize in Fundamental Physics for their contribution in validating the first direct detection of gravitational waves, predicted by Einstein. </p>
+
+			 	<p> <span class="name">Katja C. Nowack</span>, <span class="study">Physics</span>, and <span class="name">Christopher A. Alabi</span>, <span class="study">Chemical and Biomolecular Engineering</span> are two of Cornell’s 15 recipients of the National Science Foundation Faculty Early Career Development (CAREER) awards.</p>
+		</div>
+	</div>
+	<div class="col-md-7" id="visual">
+		<svg width="750" height="750"></svg>
+	</div>
+	</div>
+</body>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = 20,
+    diameter = +svg.attr("width"),
+    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+var color = d3.scaleLinear()
+    .domain([-1, 5])
+    .range(["#b31b1b", "white"])
+    .interpolate(d3.interpolateHcl);
+
+var pack = d3.pack()
+    .size([diameter - margin, diameter - margin])
+    .padding(2);
+
+d3.json("flare.json", function(error, root) {
+  if (error) throw error;
+
+  root = d3.hierarchy(root)
+      .sum(function(d) { return d.size; })
+      .sort(function(a, b) { return b.value - a.value; });
+
+  var focus = root,
+      nodes = pack(root).descendants(),
+      view;
+
+  var circle = g.selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+
+  var text = g.selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+      .style("fill", function(d) { if (d.data.name == "#12 Cornell University") { return "red"}})
+      .text(function(d) {
+        if (d.parent != root) {
+          if (d.data.name.substring(3,4) == " ") { return d.data.name.substring(4)}
+          else { return d.data.name.substring(3);}
+        } else {
+          return d.data.name;
+        }
+        })
+      .call(wrap, 150);
+
+   var text2 = g.selectAll(".text")
+    .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("opacity", .3)
+      .attr("transform", "scale(2)")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+      .style("fill", function(d) { if (d.data.name == "#12 Cornell University") { return "red"}})
+      .text(function(d) {
+        console.log(this);
+        if (d.parent != root) {
+          return d.data.name.substring(0, 3);
+        } })
+
+  var node = g.selectAll("circle,text");
+
+  svg
+      .style("background", color(-1))
+      .on("click", function() { zoom(root); });
+
+  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+  function zoom(d) {
+    var focus0 = focus; focus = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .on("start", function(d) { if (d.parent === focus) {
+        	this.style.display = "inline";
+          if (d.parent != root && this.getAttribute("class") != "label viewed"){
+        	  d3.select(this).style("font-size", 14);
+            d3.select(this).call(wrapt, 110);
+            d3.select(this).classed("viewed", true)
+          }
+        }; })
+        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+  }
+});
+
+function wrap(text, width) {
+    text.each(function () {
+        var text = d3.select(this),
+        	words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 12, // ems
+            x = text.attr("x"),
+            y = text.attr("y"),
+            dy = 0, //parseFloat(text.attr("dy")),
+            tspan = text.text(null)
+                        .append("tspan")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("dy", dy + "em");
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan")
+                            .attr("x", x - (++lineNumber))
+                            .attr("y", y)
+                            .attr("dy", 20)
+                            .text(word);
+            }
+        }
+    });
+}
+
+function wrapt(text, width) {
+    text.each(function () {
+        var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 8, // ems
+            x = text.attr("x"),
+            y = text.attr("y"),
+            dy = 0, //parseFloat(text.attr("dy")),
+            tspan = text.text(null)
+                        .append("tspan")
+                        .attr("x", x)
+                        .attr("y", y - 12)
+                        .attr("dy", dy + "em");
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan")
+                            .attr("x", x - (++lineNumber))
+                            .attr("y", y)
+                            .attr("dy", 14)
+                            .text(word);
+            }
+        }
+    });
+}
+
+</script>
+</html>

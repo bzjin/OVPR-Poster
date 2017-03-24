@@ -1,0 +1,131 @@
+* {
+  transform-origin: inherit ;
+}
+
+div {
+  position: relative;
+}
+
+#ras{
+  background: white;
+  color: #b31b1b;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 30px !important;
+}
+
+#ras p, #ras li {
+  color: black;
+  list-style: none;
+  margin: 0 !important;
+}
+
+#research{
+  background: #b31b1b;
+  color: white;
+  height: 100% !important;
+  margin: 0 !important;
+  padding-left: 30px !important;
+}
+
+#selectdistinctions {  
+  color: black;
+}
+
+#research h2, #research h3, #research h4{
+  color: black;
+}
+
+#research p{
+  margin-top: 0px !important;
+}
+
+#visual {
+  padding-top: 30px;
+}
+
+.stats{
+  padding: 0px !important;
+}
+
+.stat{
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-bottom: 0px !important;
+}
+
+.name{
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+}
+
+.study{
+  font-weight: 700;
+  color: black;
+}
+
+h1, h2, h3, h4, p { 
+  font-family: "Open Sans";
+  line-height: 1.1;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  margin-top: 0px !important;
+  font-size: 1em;
+}
+
+h4 {
+  font-weight: 700;
+  font-style: italic;
+  font-size: .6em;
+}
+
+p {
+}
+
+text { 
+  font-size: 11px;
+  font-family: "Open Sans";
+}
+
+#title {
+}
+
+#nines {
+  line-height: 1.1;
+}
+
+.dock {
+  position: fixed;
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  filter:opacity(10%)
+}
+
+.pics {
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.picsb {
+  width: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
