@@ -93,182 +93,178 @@
 		</div>
 	</div>
 	<div class="col-md-7" id="visual">
-		<svg width="750" height="750"></svg>
 	</div>
 	</div>
 </body>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+var f = d3.format(",")
 
-var svg = d3.select("svg"),
-    margin = 20,
-    diameter = +svg.attr("width"),
-    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+var national = [
+      {"name": "#1 Johns Hopkins University", "size": 231000},
+      {"name": "#2 University of Michigan", "size": 137000},
+      {"name": "#3 University of Washington", "size": 120000},
+      {"name": "#4 University of California, San Francisco", "size": 113000},
+      {"name": "#5 University of California, San Diego", "size": 110000},
+      {"name": "#6 University of Wisconsin", "size": 107000},
+      {"name": "#7 Duke University", "size": 104000},
+      {"name": "#8 Stanford University", "size": 102000},
+      {"name": "#9 University of California, Los Angeles", "size": 102000},
+      {"name": "#10 Harvard University", "size": 101000},
+      {"name": "#11 University of North Carolina", "size": 96700},
+      {"name": "#12 Cornell University", "size": 95400},
+      {"name": "#13 Massachusetts Institute of Technology", "size": 93100},
+      {"name": "#14 University of Minnesota", "size": 88100},
+      {"name": "#15 Columbia University", "size": 86800},
+      {"name": "#16 Texas A&M University", "size": 86700},
+      {"name": "#17 University of Pennsylvania", "size": 86400},
+      {"name": "#18 University of Pittsburgh", "size": 86100},
+      {"name": "#19 University of Texas M. D. Anderson Cancer Center", "size": 83300},
+      {"name": "#20 Ohio State University", "size": 81800}
+]
 
-var color = d3.scaleLinear()
-    .domain([-1, 5])
-    .range(["#b31b1b", "white"])
-    .interpolate(d3.interpolateHcl);
+var state = [
+      {"name": "#1 Cornell University", "size": 95400},
+      {"name": "#2 Columbia University", "size": 86800},
+      {"name": "#3 New York University", "size": 60200},
+      {"name": "#4 Icahn School of Medicine Mt. Sinai", "size": 50800},
+      {"name": "#5 SUNY - University of Buffalo", "size": 38300}
+     ]
 
-var pack = d3.pack()
-    .size([diameter - margin, diameter - margin])
-    .padding(2);
+var svg = d3.select("#visual").append("svg")
+  .attr("width", "100%")
+  .attr("height", 750)
 
-d3.json("flare.json", function(error, root) {
-  if (error) throw error;
+var w = $("#visual").width(), h = $("#visual").height(), p = 50;
+var uni = [];
+var funding = [];
+var states = [];
+var fundings = [];
 
-  root = d3.hierarchy(root)
-      .sum(function(d) { return d.size; })
-      .sort(function(a, b) { return b.value - a.value; });
+national.forEach(function(d){
+  uni.push(d.name);
+  funding.push(d.size);
+})
 
-  var focus = root,
-      nodes = pack(root).descendants(),
-      view;
+state.forEach(function(d){
+  states.push(d.name);
+  fundings.push(d.size);
+})
 
-  var circle = g.selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
-      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+var xScale = d3.scaleLinear()
+  .domain([0, d3.max(funding)])
+  .range([p, w - 300])
 
-  var text = g.selectAll("text")
-    .data(nodes)
-    .enter().append("text")
-      .attr("class", "label")
-      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-      .style("fill", function(d) { if (d.data.name == "#12 Cornell University") { return "red"}})
-      .text(function(d) {
-        if (d.parent != root) {
-          if (d.data.name.substring(3,4) == " ") { return d.data.name.substring(4)}
-          else { return d.data.name.substring(3);}
-        } else {
-          return d.data.name;
-        }
-        })
-      .call(wrap, 150);
+var yScale = d3.scalePoint()
+  .domain(uni)
+  .range([100, h - p])
 
-   var text2 = g.selectAll(".text")
-    .data(nodes)
-    .enter().append("text")
-      .attr("class", "label")
-      .style("opacity", .3)
-      .attr("transform", "scale(2)")
-      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-      .style("fill", function(d) { if (d.data.name == "#12 Cornell University") { return "red"}})
-      .text(function(d) {
-        console.log(this);
-        if (d.parent != root) {
-          return d.data.name.substring(0, 3);
-        } })
+var xScaleS = d3.scaleLinear()
+  .domain([0, d3.max(fundings)])
+  .range([w - 50, xScale(900000)])
 
-  var node = g.selectAll("circle,text");
+var yScaleS = d3.scalePoint()
+  .domain(states)
+  .range([yScale("#12 Cornell University"), yScale("#16 Texas A&M University")])
 
-  svg
-      .style("background", color(-1))
-      .on("click", function() { zoom(root); });
+svg.selectAll(".uni")
+  .data(national)
+  .enter().append("rect")
+    .attr("x", function(d) { return xScale(0)})
+    .attr("y", function(d) { return yScale(d.name)})
+    .attr("width", function(d) { return xScale(d.size) - p})
+    .attr("height", 20)
+    .attr("radius", "5px")
+    .style("fill-opacity", function(d) { 
+      if (d.name == "#12 Cornell University") { 
+        return 1;
+      } else { return .5}
+    })
+    .style("fill", "white")
 
-  zoomTo([root.x, root.y, root.r * 2 + margin]);
+svg.selectAll(".uniName")
+  .data(national)
+  .enter().append("text")
+    .attr("x", function(d) { return xScale(d.size) + 8})
+    .attr("y", function(d) { return yScale(d.name) + 13})
+    .style("font-weight", function(d){
+      if (d.name == "#12 Cornell University") { 
+        return 700;
+      } else { return 300}
+    })  
+    .style("fill", "white")
+    .text(function(d){ return d.name.substring(3)})
 
-  function zoom(d) {
-    var focus0 = focus; focus = d;
+svg.selectAll(".uniFunding")
+  .data(national)
+  .enter().append("text")
+    .attr("x", function(d) { return xScale(0) + 4})
+    .attr("y", function(d) { return yScale(d.name) + 17})
+    .style("font-weight", 700)
+    .style("font-size", 18)
+    .style("fill", "#b31b1b")
+    .text(function(d){ return "$" + f(d.size/100) + " M"})
 
-    var transition = d3.transition()
-        .duration(d3.event.altKey ? 7500 : 750)
-        .tween("zoom", function(d) {
-          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-          return function(t) { zoomTo(i(t)); };
-        });
+svg.selectAll(".uniNumber")
+  .data(national)
+  .enter().append("text")
+    .attr("x", function(d) { return xScale(0) - 10 })
+    .attr("y", function(d) { return yScale(d.name) + 16})
+    .style("text-anchor", "end")
+    .style("font-weight", 700)
+    .style("font-size", 14)
+    .style("fill", "white")
+    .text(function(d){ return d.name.substring(0,3)})
 
-    transition.selectAll("text")
-      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-        .on("start", function(d) { if (d.parent === focus) {
-        	this.style.display = "inline";
-          if (d.parent != root && this.getAttribute("class") != "label viewed"){
-        	  d3.select(this).style("font-size", 14);
-            d3.select(this).call(wrapt, 110);
-            d3.select(this).classed("viewed", true)
-          }
-        }; })
-        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
-  }
+svg.selectAll(".uniS")
+  .data(state)
+  .enter().append("rect")
+    .attr("x", function(d) { return w - 50 - xScale(d.size)})
+    .attr("y", function(d) { return yScaleS(d.name)})
+    .attr("width", function(d) { return xScale(d.size) - p})
+    .attr("height", 20)
+    .attr("radius", "5px")
+    .style("fill-opacity", function(d) { 
+      if (d.name == "#1 Cornell University") { 
+        return 1;
+      } else { return .5}
+    })
+    .style("fill", "white")
 
-  function zoomTo(v) {
-    var k = diameter / v[2]; view = v;
-    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-    circle.attr("r", function(d) { return d.r * k; });
-  }
-});
+svg.selectAll(".uniNameS")
+  .data(state)
+  .enter().append("text")
+    .attr("x", function(d) { return xScaleS(d.size) + 8})
+    .attr("y", function(d) { return yScaleS(d.name) + 13})
+    .style("font-weight", function(d){
+      if (d.name == "#12 Cornell University") { 
+        return 700;
+      } else { return 300}
+    })  
+    .style("fill", "white")
+    .text(function(d){ return d.name.substring(3)})
 
-function wrap(text, width) {
-    text.each(function () {
-        var text = d3.select(this),
-        	words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 12, // ems
-            x = text.attr("x"),
-            y = text.attr("y"),
-            dy = 0, //parseFloat(text.attr("dy")),
-            tspan = text.text(null)
-                        .append("tspan")
-                        .attr("x", x)
-                        .attr("y", y)
-                        .attr("dy", dy + "em");
-        while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan")
-                            .attr("x", x - (++lineNumber))
-                            .attr("y", y)
-                            .attr("dy", 20)
-                            .text(word);
-            }
-        }
-    });
-}
+svg.selectAll(".uniFundingS")
+  .data(state)
+  .enter().append("text")
+    .attr("x", function(d) { return xScaleS(0) - 50})
+    .attr("y", function(d) { return yScaleS(d.name) + 17})
+    .style("text-anchor", "end")
+    .style("font-weight", 700)
+    .style("font-size", 18)
+    .style("fill", "#b31b1b")
+    .text(function(d){ return "$" + f(d.size/100) + " M"})
 
-function wrapt(text, width) {
-    text.each(function () {
-        var text = d3.select(this),
-          words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 8, // ems
-            x = text.attr("x"),
-            y = text.attr("y"),
-            dy = 0, //parseFloat(text.attr("dy")),
-            tspan = text.text(null)
-                        .append("tspan")
-                        .attr("x", x)
-                        .attr("y", y - 12)
-                        .attr("dy", dy + "em");
-        while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan")
-                            .attr("x", x - (++lineNumber))
-                            .attr("y", y)
-                            .attr("dy", 14)
-                            .text(word);
-            }
-        }
-    });
-}
-
+svg.selectAll(".uniNumberS")
+  .data(state)
+  .enter().append("text")
+    .attr("x", function(d) { return xScaleS(0) - 40 })
+    .attr("y", function(d) { return yScaleS(d.name) + 16})
+    .style("text-anchor", "start")
+    .style("font-weight", 700)
+    .style("font-size", 14)
+    .style("fill", "white")
+    .text(function(d){ return d.name.substring(0,3)})
 </script>
 </html>
